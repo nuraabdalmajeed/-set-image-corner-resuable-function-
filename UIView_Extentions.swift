@@ -9,40 +9,8 @@ import UIKit
 // MARK: - UIView
 extension UIView
 {
-    // MARK:- Gradient
-    func setGradientBackground(colors: [UIColor], start: CGPoint, end: CGPoint, corner: CGFloat)
-    {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = colors.map { $0.cgColor }
-        gradient.startPoint = start
-        gradient.endPoint = end  
-        gradient.cornerRadius = corner
-        self.layer.shadowOffset = CGSize(width: 1, height: 2)
-        self.layer.borderWidth = 0.1
-        self.layer.shadowRadius = 3.0
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.insertSublayer(gradient, at: 0)
-    }
-    func setLinearGradient(colors: [UIColor]){
-        let gradientLayer:CAGradientLayer = CAGradientLayer()
-         gradientLayer.frame.size = self.frame.size
-         gradientLayer.colors = colors
-        self.layer.addSublayer(gradientLayer)
-    }
-    func applyGradient(colours: [UIColor], start: CGPoint = CGPoint(x : 0.0, y : 0.2), end: CGPoint = CGPoint(x :0, y: 0.6)) -> Void
-    {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.frame = self.bounds
-        gradient.colors = colours.map { $0.cgColor }
-        gradient.startPoint = start
-        gradient.endPoint = end
-        self.layer.insertSublayer(gradient, at: 0)
-    }
     
-    
-    // Add borderWidth i Story Bord
+    // Add borderWidth i StoryBoard
     @IBInspectable var borderWidth: CGFloat
         {
         set {
@@ -96,7 +64,6 @@ extension UIView
             self.layer.masksToBounds =  masksToBounds ?? false
 
         }
-//        self.clipsToBounds = true
     }
     
     func shadow_corner_Border(Corner:CGFloat, border:CGFloat, Radius:CGFloat, Opacity:Float, Width:CGFloat, height:CGFloat, borderColor: CGColor = ColorDesignSystem.Colors.LightGray.color.cgColor ,shadowColor:CGColor = #colorLiteral(red: 0.831372549, green: 0.831372549, blue: 0.831372549, alpha: 1))
@@ -110,7 +77,7 @@ extension UIView
         self.layer.borderColor = borderColor
         self.layer.shadowColor = shadowColor
     }
-    
+    //Mark: - works with images too 
     func viewsetRounded(borderWidth: CGFloat, borderColor: CGColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)) {
         let radius = self.frame.width / 2
         self.layer.cornerRadius = radius
@@ -119,60 +86,19 @@ extension UIView
         self.layer.masksToBounds = true
         self.clipsToBounds = true
     }
+        //Mark: - works with images too 
+
     func viewSetCornerImage(borderWidth: CGFloat, borderColor: CGColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)) {
-       
         self.layer.cornerRadius = 10
         self.layer.borderWidth = borderWidth
         self.layer.borderColor = borderColor
         self.layer.masksToBounds = true
         self.clipsToBounds = true
     }
-    func applyCurvedPath(givenView: UIView,curvedPercent:CGFloat) {
-        guard curvedPercent <= 1 && curvedPercent >= 0 else{
-            return
-        }
-        
-        let shapeLayer = CAShapeLayer(layer: givenView.layer)
-        shapeLayer.path = self.pathCurvedForView(givenView: givenView,curvedPercent: curvedPercent).cgPath
-        shapeLayer.frame = givenView.bounds
-        shapeLayer.masksToBounds = true
-        givenView.layer.mask = shapeLayer
-    }
-    
-    func pathCurvedForView(givenView: UIView, curvedPercent:CGFloat) ->UIBezierPath {
-        let arrowPath = UIBezierPath()
-        arrowPath.move(to: CGPoint(x:0, y:0))
-        arrowPath.addLine(to: CGPoint(x:givenView.bounds.size.width, y:0))
-        arrowPath.addLine(to: CGPoint(x:givenView.bounds.size.width, y:givenView.bounds.size.height))
-        arrowPath.addQuadCurve(to: CGPoint(x:0, y:givenView.bounds.size.height), controlPoint: CGPoint(x:givenView.bounds.size.width/2, y:givenView.bounds.size.height-givenView.bounds.size.height*curvedPercent))
-        arrowPath.addLine(to: CGPoint(x:0, y:0))
-        arrowPath.close()
-        
-        return arrowPath
-    }
-    //https://stackoverflow.com/questions/48317569/how-to-apply-curve-at-bottom-of-uiimageview
     
     
-    func setHeight(_ h:CGFloat, animateTime:TimeInterval?=nil) {
-        if let c = self.constraints.first(where: { $0.firstAttribute == .height && $0.relation == .equal }){
-            c.constant = CGFloat(h)
-            if let animateTime = animateTime {
-                UIView.animate(withDuration: animateTime, animations:{
-                    self.superview?.layoutIfNeeded()
-                })
-            }
-            else {
-                self.superview?.layoutIfNeeded()
-            }
-        }
-    }
-    //https://stackoverflow.com/questions/43010173/how-to-programmatically-increase-the-height-of-uiview-with-swift
-   
-        func setTransformRotation(toDegrees angleInDegrees: CGFloat) {
-            let angleInRadians = angleInDegrees / 180.0 * CGFloat.pi
-            let rotation = self.transform.rotated(by: angleInRadians)
-            self.transform = rotation
-        }
+    
+  
 }
 extension UIView {
      
